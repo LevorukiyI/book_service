@@ -10,10 +10,6 @@ import com.modsensoftware.book_service.requests.AuthenticationRequest;
 import com.modsensoftware.book_service.requests.RefreshAccessTokenRequest;
 import com.modsensoftware.book_service.requests.RegisterRequest;
 import com.modsensoftware.book_service.responses.AuthenticationResponse;
-import com.modsensoftware.book_service.services.AuthenticationService;
-import com.modsensoftware.book_service.services.DefaultUserDetailsService;
-import com.modsensoftware.book_service.services.JwtService;
-import com.modsensoftware.book_service.services.UserService;
 import jakarta.servlet.http.Cookie;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,8 +20,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -40,23 +34,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Import({SecurityConfiguration.class, ApplicationConfig.class})
 @ActiveProfiles("test")
 public class AuthControllerTest {
-    @Autowired
-    private DefaultUserDetailsService defaultUserDetailsService;
 
-    @Autowired
-    private AuthenticationService authenticationService;
-    @Autowired
-    private JwtService jwtService;
-    @Autowired
-    private AuthenticationManager authenticationManager;
-    @Autowired
-    private UserService userService;
     @Autowired
     private JwtRefreshTokenRepository jwtRefreshTokenRepository;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
     @Autowired
     private UserRepository userRepository;
 
