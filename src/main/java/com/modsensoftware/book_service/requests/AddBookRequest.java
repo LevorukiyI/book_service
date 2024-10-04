@@ -6,12 +6,16 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class EditBookRequest {
+public class AddBookRequest {
     @NonNull
-    private Long id;
     private String isbn;
+
+    @NonNull
     private String title;
+
     private String genre;
     private String description;
+
+    @NonNull
     private String author;
 }
