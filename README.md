@@ -4,7 +4,8 @@ swagger документация: http://localhost:8080/swagger-ui/index.html
 
 DOCKER:
 Для запуска проекта с docker-compose нужно перейти в репозиторий
-просто ссылка: https://github.com/LevorukiyI/book_service_app
+
+Просто ссылка: https://github.com/LevorukiyI/book_service_app
 GIT: https://github.com/LevorukiyI/book_service_app.git
 
 и запустить проект: docker-compose up --build
