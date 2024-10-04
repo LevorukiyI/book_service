@@ -29,6 +29,7 @@ public class BookEntity {
     private String genre;
 
     @Column(name = "description")
+    @Lob
     private String description;
 
     @Column(name = "author", nullable = false)
