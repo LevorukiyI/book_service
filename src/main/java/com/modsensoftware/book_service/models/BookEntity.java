@@ -13,6 +13,7 @@ import jakarta.persistence.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "book_entity")
 public class BookEntity {
 
     @Id
@@ -29,7 +30,6 @@ public class BookEntity {
     private String genre;
 
     @Column(name = "description")
-    @Lob
     private String description;
 
     @Column(name = "author", nullable = false)

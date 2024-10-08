@@ -7,6 +7,8 @@ spring:
     show-sql: false
     properties:
       hibernate:
+        lob:
+          use_typed: true
         format_sql: true
     open-in-view: false
   mvc:
