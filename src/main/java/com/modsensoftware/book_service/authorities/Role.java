@@ -9,8 +9,13 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
-public enum UserRole {
+public enum Role {
     USER(
+            Set.of(
+                    Permission.BREATHE
+            )
+    ),
+    SECRET_KEY(
             Set.of(
                     Permission.BREATHE
             )

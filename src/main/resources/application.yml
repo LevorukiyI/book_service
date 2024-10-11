@@ -18,7 +18,4 @@ application:
   security:
     jwt:
       secret-key: 5eekxbfUrc9marV/33k0yzgFxcuIHwIJyQ/IUd7HOMA=
-      access-token:
-        expiration: 86400000
-      refresh-token:
-        expiration: 604800000 # 7 days
+    this-service-secret-api-key: "4Ai+5X3ZuK4J+T44sp0RDL48WeieeIq0boPRJb89MMU="
