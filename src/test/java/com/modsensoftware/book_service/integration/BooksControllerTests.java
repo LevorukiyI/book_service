@@ -1,4 +1,4 @@
-package com.modsensoftware.book_service;
+package com.modsensoftware.book_service.integration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.modsensoftware.book_service.config.ApplicationConfig;
@@ -29,7 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @Import({SecurityConfiguration.class, ApplicationConfig.class})
 @ActiveProfiles("test")
-public class BooksControllerTest {
+public class BooksControllerTests {
     @Autowired
     private BookRepository bookRepository;
 
