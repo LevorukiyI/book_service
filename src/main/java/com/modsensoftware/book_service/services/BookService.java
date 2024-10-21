@@ -68,7 +68,7 @@ public class BookService {
         bookRepository.delete(bookEntity);
     }
 
-    public void deleteBook(String isbn){
+    public void deleteBook(final String isbn){
         BookEntity bookEntity = getBook(isbn);
         bookRepository.delete(bookEntity);
     }

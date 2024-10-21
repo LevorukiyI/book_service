@@ -18,4 +18,6 @@ application:
   security:
     jwt:
       secret-key: 5eekxbfUrc9marV/33k0yzgFxcuIHwIJyQ/IUd7HOMA=
-    this-service-secret-api-key: "4Ai+5X3ZuK4J+T44sp0RDL48WeieeIq0boPRJb89MMU="
+
+server:
+  port: 8080

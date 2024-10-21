@@ -24,7 +24,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
-
 @SpringBootTest
 @AutoConfigureMockMvc
 @Import({SecurityConfiguration.class, ApplicationConfig.class})
@@ -41,7 +40,7 @@ public class BooksControllerTests {
     @BeforeEach
     public void setUp() {
         objectMapper = new ObjectMapper();
-        bookRepository.deleteAll();
+        tearDown();
     }
 
     @AfterEach
@@ -49,9 +48,8 @@ public class BooksControllerTests {
         bookRepository.deleteAll();
     }
 
-
     @Test
-    @WithMockUser // Используйте аннотацию для имитации аутентифицированного пользователя
+    @WithMockUser
     public void testGetAllBooks() throws Exception {
         mockMvc.perform(get("/books/get-all-books"))
                 .andExpect(status().isOk())

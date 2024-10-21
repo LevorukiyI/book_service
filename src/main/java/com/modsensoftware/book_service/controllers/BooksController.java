@@ -25,7 +25,6 @@ public class BooksController {
 
     private final BookService bookService;
 
-    // Получение списка всех книг
     @Operation(summary = "Получение списка всех книг",
             security = @SecurityRequirement(name = "Bearer"))
     @GetMapping("/get-all-books")
@@ -34,7 +33,6 @@ public class BooksController {
         return ResponseEntity.ok(books);
     }
 
-    // Получение книги по ID
     @Operation(summary = "Получение книги по ID",
             parameters = @Parameter(name = "id", description = "ID книги", required = true),
             security = @SecurityRequirement(name = "Bearer"))
@@ -44,7 +42,6 @@ public class BooksController {
         return ResponseEntity.ok(book);
     }
 
-    // Получение книги по ISBN
     @Operation(summary = "Получение книги по ISBN",
             parameters = @Parameter(name = "isbn", description = "ISBN книги", required = true),
             security = @SecurityRequirement(name = "Bearer"))
@@ -54,17 +51,15 @@ public class BooksController {
         return ResponseEntity.ok(book);
     }
 
-    // Добавление новой книги
     @Operation(summary = "Добавление новой книги",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Информация о книге", required = true),
             security = @SecurityRequirement(name = "Bearer"))
-    @PostMapping("/add-book")
+    @PostMapping("/add-book")//TODO redundant link
     public ResponseEntity<Void> addBook(@RequestBody AddBookRequest addBookRequest) {
         bookService.addBook(addBookRequest);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    // Изменение информации о существующей книге
     @Operation(summary = "Изменение информации о существующей книге",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Обновленная информация о книге", required = true),
             security = @SecurityRequirement(name = "Bearer"))
@@ -74,17 +69,15 @@ public class BooksController {
         return ResponseEntity.ok().build();
     }
 
-    // Удаление книги по ID
     @Operation(summary = "Удаление книги по ID",
             parameters = @Parameter(name = "id", description = "ID книги", required = true),
             security = @SecurityRequirement(name = "Bearer"))
-    @DeleteMapping("/delete/id/{id}")
+    @DeleteMapping("/delete/id/{id}")//TODO redundant link
     public ResponseEntity<Void> deleteBook(@PathVariable Long id) {
         bookService.deleteBook(id);
         return ResponseEntity.noContent().build();
     }
 
-    // Удаление книги по ISBN
     @Operation(summary = "Удаление книги по ISBN",
             parameters = @Parameter(name = "isbn", description = "ISBN книги", required = true),
             security = @SecurityRequirement(name = "Bearer"))
