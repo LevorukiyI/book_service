@@ -54,7 +54,7 @@ public class BooksController {
     @Operation(summary = "Добавление новой книги",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Информация о книге", required = true),
             security = @SecurityRequirement(name = "Bearer"))
-    @PostMapping("/add-book")//TODO redundant link
+    @PostMapping("/add-book")
     public ResponseEntity<Void> addBook(@RequestBody AddBookRequest addBookRequest) {
         bookService.addBook(addBookRequest);
         return ResponseEntity.status(HttpStatus.CREATED).build();
@@ -72,7 +72,7 @@ public class BooksController {
     @Operation(summary = "Удаление книги по ID",
             parameters = @Parameter(name = "id", description = "ID книги", required = true),
             security = @SecurityRequirement(name = "Bearer"))
-    @DeleteMapping("/delete/id/{id}")//TODO redundant link
+    @DeleteMapping("/delete/id/{id}")
     public ResponseEntity<Void> deleteBook(@PathVariable Long id) {
         bookService.deleteBook(id);
         return ResponseEntity.noContent().build();
