@@ -23,7 +23,7 @@ FROM debian:bookworm-slim as runtime
 RUN apt-get update && \
     apt-get install -y curl && \
     apt-get clean && \
-    rm -rf /var/lib/apt/lists/* \
+    rm -rf /var/lib/apt/lists/*
 
 ENV JAVA_HOME=/user/java/jdk21
 ENV PATH=$JAVA_HOME/bin:$PATH
