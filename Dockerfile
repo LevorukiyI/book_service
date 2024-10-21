@@ -1,5 +1,6 @@
 FROM maven:3.9.8-amazoncorretto-21 AS build
 RUN yum install -y binutils
+RUN yum install -y curl
 
 RUN mkdir /usr/src/project
 COPY . /usr/src/project
