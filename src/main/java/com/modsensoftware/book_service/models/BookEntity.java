@@ -17,7 +17,7 @@ import jakarta.persistence.*;
 public class BookEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)//TODO почитать table
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "isbn", nullable = false, unique = true)
