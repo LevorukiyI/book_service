@@ -8,6 +8,7 @@ import com.modsensoftware.book_service.requests.EditBookRequest;
 import com.modsensoftware.book_service.utils.Mapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -34,12 +35,14 @@ public class BookService {
         return bookRepository.getBookEntityByIsbn(isbn).orElseThrow(() -> new BookNotFoundException(isbn));
     }
 
+    @Transactional
     public BookEntity addBook(AddBookRequest addBookRequest){
         BookEntity bookEntity = Mapper.from(addBookRequest);
         bookRepository.save(bookEntity);
         return bookEntity;
     }
 
+    @Transactional
     public BookEntity editBook(Long bookId, EditBookRequest editBookRequest){
         if (bookId == null) {
             throw new IllegalArgumentException("ID книги не может быть null");
@@ -53,11 +56,13 @@ public class BookService {
         return bookEntity;
     }
 
+    @Transactional
     public void deleteBook(Long id){
         BookEntity bookEntity = getBook(id);
         bookRepository.delete(bookEntity);
     }
 
+    @Transactional
     public void deleteBook(final String isbn){
         BookEntity bookEntity = getBook(isbn);
         bookRepository.delete(bookEntity);
