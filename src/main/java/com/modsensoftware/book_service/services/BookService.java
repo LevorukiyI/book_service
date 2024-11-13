@@ -11,8 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-
-
 @Service
 @RequiredArgsConstructor
 public class BookService {
@@ -36,31 +34,23 @@ public class BookService {
         return bookRepository.getBookEntityByIsbn(isbn).orElseThrow(() -> new BookNotFoundException(isbn));
     }
 
-    public void addBook(AddBookRequest addBookRequest){
+    public BookEntity addBook(AddBookRequest addBookRequest){
         BookEntity bookEntity = Mapper.from(addBookRequest);
         bookRepository.save(bookEntity);
+        return bookEntity;
     }
 
-    public void editBook(EditBookRequest editBookRequest){
-        BookEntity bookEntity = getBook(editBookRequest.getId());
-
-        if (editBookRequest.getIsbn() != null) {
-            bookEntity.setIsbn(editBookRequest.getIsbn());
+    public BookEntity editBook(Long bookId, EditBookRequest editBookRequest){
+        if (bookId == null) {
+            throw new IllegalArgumentException("ID книги не может быть null");
         }
-        if (editBookRequest.getTitle() != null) {
-            bookEntity.setTitle(editBookRequest.getTitle());
+        if(!bookRepository.existsById(bookId)){
+            throw new BookNotFoundException(bookId);
         }
-        if (editBookRequest.getGenre() != null) {
-            bookEntity.setGenre(editBookRequest.getGenre());
-        }
-        if (editBookRequest.getDescription() != null) {
-            bookEntity.setDescription(editBookRequest.getDescription());
-        }
-        if (editBookRequest.getAuthor() != null) {
-            bookEntity.setAuthor(editBookRequest.getAuthor());
-        }
+        BookEntity bookEntity = Mapper.from(bookId, editBookRequest);
 
         bookRepository.save(bookEntity);
+        return bookEntity;
     }
 
     public void deleteBook(Long id){

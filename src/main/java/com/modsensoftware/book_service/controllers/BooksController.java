@@ -27,7 +27,7 @@ public class BooksController {
 
     @Operation(summary = "Получение списка всех книг",
             security = @SecurityRequirement(name = "Bearer"))
-    @GetMapping("/get-all-books")
+    @GetMapping()
     public ResponseEntity<List<BookEntity>> getAllBooks() {
         List<BookEntity> books = bookService.getAllBooks();
         return ResponseEntity.ok(books);
@@ -36,7 +36,7 @@ public class BooksController {
     @Operation(summary = "Получение книги по ID",
             parameters = @Parameter(name = "id", description = "ID книги", required = true),
             security = @SecurityRequirement(name = "Bearer"))
-    @GetMapping("/get-book/id/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<BookEntity> getBookById(@PathVariable Long id) {
         BookEntity book = bookService.getBook(id);
         return ResponseEntity.ok(book);
@@ -45,7 +45,7 @@ public class BooksController {
     @Operation(summary = "Получение книги по ISBN",
             parameters = @Parameter(name = "isbn", description = "ISBN книги", required = true),
             security = @SecurityRequirement(name = "Bearer"))
-    @GetMapping("/get-book/isbn/{isbn}")
+    @GetMapping("/isbn/{isbn}")
     public ResponseEntity<BookEntity> getBookByIsbn(@PathVariable String isbn) {
         BookEntity book = bookService.getBook(isbn);
         return ResponseEntity.ok(book);
@@ -54,25 +54,27 @@ public class BooksController {
     @Operation(summary = "Добавление новой книги",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Информация о книге", required = true),
             security = @SecurityRequirement(name = "Bearer"))
-    @PostMapping("/add-book")
-    public ResponseEntity<Void> addBook(@RequestBody AddBookRequest addBookRequest) {
-        bookService.addBook(addBookRequest);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    @PostMapping()
+    public ResponseEntity<BookEntity> addBook(@RequestBody AddBookRequest addBookRequest) {
+        BookEntity addedBook = bookService.addBook(addBookRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).body(addedBook);
     }
 
     @Operation(summary = "Изменение информации о существующей книге",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Обновленная информация о книге", required = true),
             security = @SecurityRequirement(name = "Bearer"))
-    @PostMapping("/edit-book")
-    public ResponseEntity<Void> editBook(@RequestBody EditBookRequest editBookRequest) {
-        bookService.editBook(editBookRequest);
-        return ResponseEntity.ok().build();
+    @PutMapping("/{id}")
+    public ResponseEntity<BookEntity> editBook(
+            @PathVariable Long id,
+            @RequestBody EditBookRequest editBookRequest) {
+        BookEntity editedBook = bookService.editBook(id, editBookRequest);
+        return ResponseEntity.ok(editedBook);
     }
 
     @Operation(summary = "Удаление книги по ID",
             parameters = @Parameter(name = "id", description = "ID книги", required = true),
             security = @SecurityRequirement(name = "Bearer"))
-    @DeleteMapping("/delete/id/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteBook(@PathVariable Long id) {
         bookService.deleteBook(id);
         return ResponseEntity.noContent().build();
@@ -81,7 +83,7 @@ public class BooksController {
     @Operation(summary = "Удаление книги по ISBN",
             parameters = @Parameter(name = "isbn", description = "ISBN книги", required = true),
             security = @SecurityRequirement(name = "Bearer"))
-    @DeleteMapping("/delete/isbn/{isbn}")
+    @DeleteMapping("/{isbn}")
     public ResponseEntity<Void> deleteBookByIsbn(@PathVariable String isbn) {
         bookService.deleteBook(isbn);
         return ResponseEntity.noContent().build();

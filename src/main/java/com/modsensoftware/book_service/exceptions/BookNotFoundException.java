@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class BookNotFoundException extends RuntimeException {
 
     public BookNotFoundException(Long id) {
-        super("Книга с ID " + id + " не найдена");
+        super("book with ID " + id + " not found");
     }
 
     public BookNotFoundException(String isbn) {
-        super("Книга с ISBN " + isbn + " не найдена");
+        super("book with ISBN " + isbn + " not found");
     }
 }
