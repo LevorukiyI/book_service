@@ -1,8 +1,8 @@
-package com.modsensoftware.book_service.config;
+package com.modsensoftware.book_service.security.filters;
 
-import com.modsensoftware.book_service.authorities.Role;
-import com.modsensoftware.book_service.models.ApiKeyAuthentication;
-import com.modsensoftware.book_service.utils.HttpRequestUtils;
+import com.modsensoftware.book_service.security.models.authorities.Role;
+import com.modsensoftware.book_service.security.models.ApiKeyAuthentication;
+import com.modsensoftware.book_service.security.utils.HttpRequestUtils;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -56,34 +56,31 @@ public class ApiKeyAuthenticationFilterTests {
     @Test
     public void testDoFilterInternalNullRequest() {
         request = null;
-        assertThrows(NullPointerException.class, () -> {
-            filter.doFilterInternal(request, response, filterChain);
-        });
+        assertThrows(NullPointerException.class,
+                () -> filter.doFilterInternal(request, response, filterChain));
     }
 
     @Test
     public void testDoFilterInternalNullResponse() {
         response = null;
-        assertThrows(NullPointerException.class, () -> {
-            filter.doFilterInternal(request, response, filterChain);
-        });
+        assertThrows(NullPointerException.class, () ->
+                filter.doFilterInternal(request, response, filterChain));
     }
 
     @Test
     public void testDoFilterInternalNulFilterChain() {
         filterChain = null;
-        assertThrows(NullPointerException.class, () -> {
-            filter.doFilterInternal(request, response, filterChain);
-        });
+        assertThrows(NullPointerException.class,
+                () -> filter.doFilterInternal(request, response, filterChain));
     }
 
     @Test
     @SneakyThrows
     public void testDoFilterInternalNullApiKey() {
         try (MockedStatic<HttpRequestUtils> httpRequestUtilsMockedStatic = Mockito.mockStatic(HttpRequestUtils.class)) {
-            httpRequestUtilsMockedStatic.when(() -> {
-                HttpRequestUtils.extractSecretKey(request);
-            }).thenReturn(null);
+            httpRequestUtilsMockedStatic.when(
+                    () -> HttpRequestUtils.extractSecretKey(request)
+            ).thenReturn(null);
             filter.doFilterInternal(request, response, filterChain);
         }
 
@@ -94,17 +91,14 @@ public class ApiKeyAuthenticationFilterTests {
     @Test
     @SneakyThrows
     public void testDoFilterInternalWithInvalidApiKey() {
-        String invalidationString = "if you add this string to the ApiKey"
-                + "the ApiKey will no longer be valid."
-                + "Which is logical, because this is a garbage line";
+        String invalidationString = "if you add this string to the ApiKey" + "the ApiKey will no longer be valid." + "Which is logical, because this is a garbage line";
         String invalidApiKey = thisServiceSecretApiKey + invalidationString;
         try (MockedStatic<HttpRequestUtils> httpRequestUtilsMockedStatic = Mockito.mockStatic(HttpRequestUtils.class)) {
-            httpRequestUtilsMockedStatic.when(() -> {
-                HttpRequestUtils.extractSecretKey(request);
-            }).thenReturn(invalidApiKey);
-            assertThrows(BadCredentialsException.class, () -> {
-                filter.doFilterInternal(request, response, filterChain);
-            });
+            httpRequestUtilsMockedStatic.when(
+                    () -> HttpRequestUtils.extractSecretKey(request)
+            ).thenReturn(invalidApiKey);
+            assertThrows(BadCredentialsException.class,
+                    () -> filter.doFilterInternal(request, response, filterChain));
         }
     }
 
@@ -113,9 +107,9 @@ public class ApiKeyAuthenticationFilterTests {
     public void testDoFilterInternalWithValidApiKeyAndNullAuthentication() {
         when(securityContext.getAuthentication()).thenReturn(null);
         try (MockedStatic<HttpRequestUtils> httpRequestUtilsMockedStatic = Mockito.mockStatic(HttpRequestUtils.class)) {
-            httpRequestUtilsMockedStatic.when(() -> {
-                HttpRequestUtils.extractSecretKey(request);
-            }).thenReturn(thisServiceSecretApiKey);
+            httpRequestUtilsMockedStatic.when(
+                    () -> HttpRequestUtils.extractSecretKey(request)
+            ).thenReturn(thisServiceSecretApiKey);
 
             filter.doFilterInternal(request, response, filterChain);
         }
@@ -133,9 +127,9 @@ public class ApiKeyAuthenticationFilterTests {
     public void testDoFilterInternalCallsFilterChain() {
         when(securityContext.getAuthentication()).thenReturn(null);
         try (MockedStatic<HttpRequestUtils> httpRequestUtilsMockedStatic = Mockito.mockStatic(HttpRequestUtils.class)) {
-            httpRequestUtilsMockedStatic.when(() -> {
-                HttpRequestUtils.extractSecretKey(request);
-            }).thenReturn(thisServiceSecretApiKey);
+            httpRequestUtilsMockedStatic.when(
+                    () -> HttpRequestUtils.extractSecretKey(request)
+            ).thenReturn(thisServiceSecretApiKey);
 
             filter.doFilterInternal(request, response, filterChain);
         }
@@ -149,9 +143,7 @@ public class ApiKeyAuthenticationFilterTests {
         AbstractAuthenticationToken alreadyExistedAuthenticationToken = Mockito.mock(AbstractAuthenticationToken.class);
         when(securityContext.getAuthentication()).thenReturn(alreadyExistedAuthenticationToken);
         try (MockedStatic<HttpRequestUtils> httpRequestUtilsMockedStatic = Mockito.mockStatic(HttpRequestUtils.class)) {
-            httpRequestUtilsMockedStatic.when(() -> {
-                HttpRequestUtils.extractSecretKey(request);
-            }).thenReturn(thisServiceSecretApiKey);
+            httpRequestUtilsMockedStatic.when(() -> HttpRequestUtils.extractSecretKey(request)).thenReturn(thisServiceSecretApiKey);
 
             filter.doFilterInternal(request, response, filterChain);
         }

@@ -1,4 +1,4 @@
-package com.modsensoftware.book_service.models;
+package com.modsensoftware.book_service.security.models;
 
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;

@@ -2,7 +2,7 @@ package com.modsensoftware.book_service.integration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.modsensoftware.book_service.config.ApplicationConfig;
-import com.modsensoftware.book_service.config.SecurityConfiguration;
+import com.modsensoftware.book_service.config.security.SecurityConfiguration;
 import com.modsensoftware.book_service.models.BookEntity;
 import com.modsensoftware.book_service.repositories.BookRepository;
 import com.modsensoftware.book_service.requests.*;

@@ -1,4 +1,4 @@
-package com.modsensoftware.book_service.authorities;
+package com.modsensoftware.book_service.security.models.authorities;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

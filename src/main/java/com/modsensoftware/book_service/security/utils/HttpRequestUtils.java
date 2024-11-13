@@ -1,4 +1,4 @@
-package com.modsensoftware.book_service.utils;
+package com.modsensoftware.book_service.security.utils;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.NonNull;

@@ -1,8 +1,8 @@
-package com.modsensoftware.book_service.config;
+package com.modsensoftware.book_service.security.filters;
 
-import com.modsensoftware.book_service.authorities.Role;
-import com.modsensoftware.book_service.services.JwtService;
-import com.modsensoftware.book_service.utils.HttpRequestUtils;
+import com.modsensoftware.book_service.security.models.authorities.Role;
+import com.modsensoftware.book_service.security.services.JwtService;
+import com.modsensoftware.book_service.security.utils.HttpRequestUtils;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -54,25 +54,22 @@ public class JwtAuthenticationFilterTests {
     @Test
     public void testDoFilterInternalNullRequest() {
         request = null;
-        assertThrows(NullPointerException.class, () -> {
-            filter.doFilterInternal(request, response, filterChain);
-        });
+        assertThrows(NullPointerException.class,
+                () -> filter.doFilterInternal(request, response, filterChain));
     }
 
     @Test
     public void testDoFilterInternalNullResponse() {
         response = null;
-        assertThrows(NullPointerException.class, () -> {
-            filter.doFilterInternal(request, response, filterChain);
-        });
+        assertThrows(NullPointerException.class,
+                () -> filter.doFilterInternal(request, response, filterChain));
     }
 
     @Test
     public void testDoFilterInternalNullFilterChain() {
         filterChain = null;
-        assertThrows(NullPointerException.class, () -> {
-            filter.doFilterInternal(request, response, filterChain);
-        });
+        assertThrows(NullPointerException.class,
+                () -> filter.doFilterInternal(request, response, filterChain));
     }
 
     @Test
@@ -91,9 +88,9 @@ public class JwtAuthenticationFilterTests {
     @SneakyThrows
     public void testDoFilterInternalWithNullJwtAccessToken() {
         try(MockedStatic<HttpRequestUtils> httpRequestUtilsMockedStatic = Mockito.mockStatic(HttpRequestUtils.class)) {
-            httpRequestUtilsMockedStatic.when(() -> {
-                HttpRequestUtils.extractAccessToken(request);
-            }).thenReturn(null);
+            httpRequestUtilsMockedStatic.when(
+                    () -> HttpRequestUtils.extractAccessToken(request)
+            ).thenReturn(null);
 
             filter.doFilterInternal(request, response, filterChain);
         }
@@ -107,9 +104,9 @@ public class JwtAuthenticationFilterTests {
     public void testDoFilterInternalWithNullUsername() {
         when(jwtService.extractSubject(any())).thenReturn(null);
         try(MockedStatic<HttpRequestUtils> httpRequestUtilsMockedStatic = Mockito.mockStatic(HttpRequestUtils.class)) {
-            httpRequestUtilsMockedStatic.when(() -> {
-                HttpRequestUtils.extractAccessToken(request);
-            }).thenReturn("notNullAccessToken");
+            httpRequestUtilsMockedStatic.when(() ->
+                    HttpRequestUtils.extractAccessToken(request)
+            ).thenReturn("notNullAccessToken");
             filter.doFilterInternal(request, response, filterChain);
         }
         Mockito.verify(filterChain).doFilter(request, response);
@@ -127,9 +124,9 @@ public class JwtAuthenticationFilterTests {
         doReturn(grantedAuthorities).when(jwtService).extractAuthorities(any());
 
         try(MockedStatic<HttpRequestUtils> httpRequestUtilsMockedStatic = Mockito.mockStatic(HttpRequestUtils.class)) {
-            httpRequestUtilsMockedStatic.when(() -> {
-                HttpRequestUtils.extractAccessToken(request);
-            }).thenReturn("notNullAccessToken");
+            httpRequestUtilsMockedStatic.when(
+                    () -> HttpRequestUtils.extractAccessToken(request)
+            ).thenReturn("notNullAccessToken");
         filter.doFilterInternal(request, response, filterChain);
         }
 

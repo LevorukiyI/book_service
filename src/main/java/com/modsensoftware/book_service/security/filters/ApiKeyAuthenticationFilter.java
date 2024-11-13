@@ -1,8 +1,8 @@
-package com.modsensoftware.book_service.config;
+package com.modsensoftware.book_service.security.filters;
 
-import com.modsensoftware.book_service.authorities.Role;
-import com.modsensoftware.book_service.models.ApiKeyAuthentication;
-import com.modsensoftware.book_service.utils.HttpRequestUtils;
+import com.modsensoftware.book_service.security.models.authorities.Role;
+import com.modsensoftware.book_service.security.models.ApiKeyAuthentication;
+import com.modsensoftware.book_service.security.utils.HttpRequestUtils;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

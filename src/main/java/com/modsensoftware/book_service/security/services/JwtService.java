@@ -1,4 +1,4 @@
-package com.modsensoftware.book_service.services;
+package com.modsensoftware.book_service.security.services;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

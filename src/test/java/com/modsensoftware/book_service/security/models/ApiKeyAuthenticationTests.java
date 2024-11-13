@@ -1,4 +1,4 @@
-package com.modsensoftware.book_service.models;
+package com.modsensoftware.book_service.security.models;
 
 import java.util.Collection;
 import java.util.Collections;

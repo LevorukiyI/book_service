@@ -1,4 +1,4 @@
-package com.modsensoftware.book_service.controllers;
+package com.modsensoftware.book_service.monitoring;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
