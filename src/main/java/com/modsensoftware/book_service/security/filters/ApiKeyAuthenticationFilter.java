@@ -48,7 +48,6 @@ public class ApiKeyAuthenticationFilter extends OncePerRequestFilter {
                         Role.SECRET_KEY.getAuthorities()
                 )
         );
-
         filterChain.doFilter(request, response);
     }
 }

@@ -1,16 +1,14 @@
 package com.modsensoftware.book_service.services;
 
+import com.modsensoftware.book_service.dtos.BookDTO;
+import com.modsensoftware.book_service.dtos.requests.BookRequest;
 import com.modsensoftware.book_service.exceptions.BookNotFoundException;
 import com.modsensoftware.book_service.models.BookEntity;
 import com.modsensoftware.book_service.repositories.BookRepository;
-import com.modsensoftware.book_service.requests.AddBookRequest;
-import com.modsensoftware.book_service.requests.EditBookRequest;
+import com.modsensoftware.book_service.utils.BookMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.*;
 
 import java.util.Collections;
 import java.util.Optional;
@@ -41,33 +39,32 @@ class BookServiceTests {
     void getAllBooks() {
         when(bookRepository.findAll()).thenReturn(Collections.singletonList(bookEntity));
 
-        var books = bookService.getAllBooks();
+        var books = bookService.getAllBooksAsDTO();
 
         assertEquals(1, books.size());
-        assertEquals(bookEntity, books.get(0));
+        assertEquals(BookMapper.INSTANCE.toDTO(bookEntity), books.get(0));
     }
 
     @Test
     void getBookById() {
         when(bookRepository.getBookEntityById(1L)).thenReturn(Optional.of(bookEntity));
 
-        var result = bookService.getBook(1L);
+        var result = bookService.getBookDTO(1L);
 
-        assertEquals(bookEntity, result);
+        assertEquals(BookMapper.INSTANCE.toDTO(bookEntity), result);
     }
 
     @Test
     void getBookById_NotFound() {
         when(bookRepository.getBookEntityById(1L)).thenReturn(Optional.empty());
 
-        assertThrows(BookNotFoundException.class, () -> bookService.getBook(1L));
+        assertThrows(BookNotFoundException.class, () -> bookService.getBookDTO(1L));
     }
 
     @Test
     void addBook() {
-        AddBookRequest request = new AddBookRequest();
-        request.setIsbn("123-4567890123");
-        request.setTitle("Test Book");
+        BookRequest request = new BookRequest("123-4567890123", "Test Book", null,
+                null, "author");
 
         bookService.addBook(request);
 
@@ -81,16 +78,16 @@ class BookServiceTests {
 
     @Test
     void editBook() {
-        EditBookRequest request = new EditBookRequest();
-        request.setId(1L);
-        request.setTitle("Updated Book");
+        BookRequest request = new BookRequest("isbn", "Updated Book", null, null, "author");
+        Long bookId = 1L;
 
-        when(bookRepository.getBookEntityById(1L)).thenReturn(Optional.of(bookEntity));
+        when(bookRepository.existsById(bookId)).thenReturn(true);
+        when(bookRepository.getBookEntityById(bookId)).thenReturn(Optional.of(bookEntity));
 
-        bookService.editBook(request);
+        BookDTO resultBook = bookService.editBook(bookId, request);
 
-        verify(bookRepository).save(bookEntity);
-        assertEquals("Updated Book", bookEntity.getTitle());
+        verify(bookRepository).save(any());
+        assertEquals("Updated Book", resultBook.title());
     }
 
     @Test
@@ -122,6 +119,6 @@ class BookServiceTests {
     void getBookByIsbn_NotFound() {
         when(bookRepository.getBookEntityByIsbn("123-4567890123")).thenReturn(Optional.empty());
 
-        assertThrows(BookNotFoundException.class, () -> bookService.getBook("123-4567890123"));
+        assertThrows(BookNotFoundException.class, () -> bookService.getBookDTO("123-4567890123"));
     }
 }

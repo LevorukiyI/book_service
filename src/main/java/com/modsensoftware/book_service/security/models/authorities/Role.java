@@ -12,12 +12,31 @@ import java.util.stream.Collectors;
 public enum Role {
     USER(
             Set.of(
-                    Permission.BREATHE
+                    Permission.GET_ALL_BOOKS,
+                    Permission.GET_BOOK_BY_ID,
+                    Permission.GET_BOOK_BY_ISBN
+            )
+    ),
+    LIBRARY_WORKER(
+            Set.of(
+                    Permission.GET_ALL_BOOKS,
+                    Permission.GET_BOOK_BY_ID,
+                    Permission.GET_BOOK_BY_ISBN,
+                    Permission.ADD_BOOK,
+                    Permission.EDIT_BOOK,
+                    Permission.DELETE_BOOK_BY_ID,
+                    Permission.DELETE_BOOK_BY_ISBN
             )
     ),
     SECRET_KEY(
             Set.of(
-                    Permission.BREATHE
+                    Permission.GET_ALL_BOOKS,
+                    Permission.GET_BOOK_BY_ID,
+                    Permission.GET_BOOK_BY_ISBN,
+                    Permission.ADD_BOOK,
+                    Permission.EDIT_BOOK,
+                    Permission.DELETE_BOOK_BY_ID,
+                    Permission.DELETE_BOOK_BY_ISBN
             )
     );
 
